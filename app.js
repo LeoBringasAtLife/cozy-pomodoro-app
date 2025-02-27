@@ -45,9 +45,7 @@ class PomodoroTimer {
 
     selectBalloon(balloon) {
         this.balloons.forEach(b => b.classList.remove('selected'));
-
         balloon.classList.add('selected');
-
         this.selectedTime = parseInt(balloon.dataset.minutes);
     }
 

@@ -1,0 +1,13 @@
+# Assets
+assets/cozy-library-bg.png
+assets/balloon-5.png
+assets/balloon-10.png
+assets/balloon-15.png
+assets/balloon-25.png
+assets/start-sign.png
+assets/stop-sign.png
+assets/timer-complete.mp3
+
+# General
+.DS_Store
+node_modules/
