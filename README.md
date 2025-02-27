@@ -2,6 +2,8 @@
 
 A super simple charming and aesthetically pleasing Pomodoro timer web application set in a cozy library environment.
 
+<img width="736" alt="Screenshot 2025-02-27 at 01 20 23" src="https://github.com/user-attachments/assets/e23737b6-87ee-441d-ac63-5b3c457b251f" />
+
 ## ✨ Features
 
 - Beautiful cozy library background with a fireplace and bookshelves
