@@ -9,6 +9,17 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
+        :root {
+            --color-principal: #E4A6AA;
+            /* soft pink */
+            --color-secundario: #666666;
+            /* warm gray */
+            --color-fondo: #FFF7F2;
+            /* beige cozy */
+            --color-acento: #FFD87A;
+            /* mild mustard */
+        }
+
         .cozy-bg {
             background-image: url('assets/cozy-library-bg.png');
             background-size: cover;
@@ -17,7 +28,7 @@
             min-height: 100vh;
         }
 
-        /* Overlay to add warmth to the background */
+        /* Overlay para calidez extra */
         .cozy-bg::before {
             content: '';
             position: absolute;
@@ -35,6 +46,8 @@
             cursor: pointer;
             width: 80px;
             height: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.255);
+            /* floating effect */
         }
 
         .balloon:hover {
@@ -43,13 +56,15 @@
         }
 
         .balloon.selected {
-            filter: drop-shadow(0 0 15px rgba(255, 220, 180, 0.9));
-            transform: translateY(-5px);
+            outline: 4px solid var(--color-principal);
+            outline-offset: 4px;
+            transform: scale(1.07);
+            transition: transform 0.2s, outline 0.2s;
         }
 
-        /* Timer container styling to match design */
+        /* Timer container */
         .timer-container {
-            background: white;
+            background: var(--color-fondo);
             border-radius: 8px;
             padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -58,7 +73,6 @@
         }
 
         .digit {
-            background: #f8f8f8;
             border-radius: 4px;
             width: 60px;
             height: 80px;
@@ -72,17 +86,16 @@
         }
 
         .digit.pink {
-            background: #E4A6AA;
+            background-color: var(--color-principal);
         }
 
         .digit.gray {
-            background: #666666;
+            background-color: var(--color-secundario);
         }
 
-        /* Completion message styling */
         .completion-message {
             font-family: 'Indie Flower', cursive;
-            color: #E4A6AA;
+            color: var(--color-principal);
             font-size: 3rem;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -90,7 +103,7 @@
         }
 
         .cozy-stop-btn {
-            background: #E4A6AA;
+            background: var(--color-principal);
             color: white;
             padding: 1rem 2rem;
             border-radius: 20px;
@@ -100,6 +113,20 @@
             transition: all 0.3s ease;
             margin-top: 1rem;
         }
+
+        #stop-btn img {
+            border-radius: 20px;
+            /* igual que cozy-stop-btn */
+            font-family: 'Indie Flower', cursive;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #stop-btn img:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
 
         .cozy-stop-btn:hover {
             transform: translateY(-2px);
@@ -120,41 +147,49 @@
     </style>
 </head>
 
-<body class="h-screen w-screen overflow-hidden">
+<body class="h-screen w-screen overflow-hidden bg-[var(--color-fondo)]">
     <div class="cozy-bg h-full w-full relative">
         <!-- Start Screen -->
-        <div id="start-screen" class="h-full w-full flex items-center justify-center">
-            <div class="relative w-full h-full">
-                <!-- Balloons -->
-                <img src="assets/balloon-5.png" class="balloon absolute left-[10%] top-[30%] w-24" data-minutes="1">
-                <img src="assets/balloon-10.png" class="balloon absolute left-[25%] top-[25%] w-24" data-minutes="10">
-                <img src="assets/balloon-15.png" class="balloon absolute left-[40%] top-[20%] w-24" data-minutes="15">
-                <img src="assets/balloon-25.png" class="balloon absolute right-[20%] top-[15%] w-24" data-minutes="25">
-
-                <!-- Start Button -->
-                <button id="start-btn" class="absolute right-8 bottom-7">
-                    <img src="assets/start-sign.png" class="w-32 hover:scale-105 transition-transform">
-                </button>
+        <div id="start-screen" class="h-full w-full flex flex-col items-center justify-center">
+            <!-- Balloons Row -->
+            <div class="flex flex-wrap justify-center gap-6 mb-10">
+                <img src="https://placehold.co/96x96/FFB6C1/000000?text= +'5'"
+                    class="balloon w-24 hover:scale-105 transition-transform" data-minutes="1">
+                <img src="https://placehold.co/96x96/87CEFA/000000?text= +'10'"
+                    class="balloon w-24 hover:scale-105 transition-transform" data-minutes="10">
+                <img src="https://placehold.co/96x96/FFA500/000000?text= +'15'"
+                    class="balloon w-24 hover:scale-105 transition-transform" data-minutes="15">
+                <img src="https://placehold.co/96x96/98FB98/000000?text= +'25'"
+                    class="balloon w-24 hover:scale-105 transition-transform" data-minutes="25">
             </div>
-        </div>
 
-        <!-- Timer Screen -->
-        <div id="timer-screen" class="hidden h-full w-full flex items-center justify-center">
-            <button id="stop-btn" class="absolute left-1 bottom-11 transform -translate-y-1/2">
-                <img src="assets/stop-sign.png" class="w-24 hover:scale-105 transition-transform">
+            <!-- Start Button -->
+            <button id="start-btn" aria-label="Start Timer">
+                <img src="https://placehold.co/128x128/FFD700/000000?text=Start"
+                    class="w-32 hover:scale-105 transition-transform rounded-2xl bg-[var(--color-acento)] p-1"
+                    alt="Start Sign">
             </button>
-
-            <div class="timer-container">
+        </div>
+        <!-- Timer Screen -->
+        <div id="timer-screen" class="hidden h-full w-full flex flex-col items-center justify-center gap-6">
+            <div class="timer-container flex gap-2 text-5xl font-bold">
                 <div id="minutes-tens" class="digit pink">0</div>
                 <div id="minutes-ones" class="digit pink">0</div>
+                <div>:</div>
                 <div id="seconds-tens" class="digit gray">0</div>
                 <div id="seconds-ones" class="digit gray">0</div>
             </div>
+
+            <button id="stop-btn">
+                <img src="https://placehold.co/96x96/FF4500/FFFFFF?text=Stop"
+                    class="w-24 hover:scale-105 transition-transform" alt="Stop Sign">
+            </button>
         </div>
+
 
         <!-- Completion Screen -->
         <div id="completion-screen" class="hidden h-full w-full flex flex-col items-center justify-center">
-            <div class="completion-message">Take a break! 🌸</div>
+            <div class="completion-message mb-6">Take a break! 🌸</div>
             <button id="completion-stop-btn" class="cozy-stop-btn">
                 Stop Music
             </button>
